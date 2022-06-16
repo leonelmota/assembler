@@ -86,9 +86,8 @@ void pass_one()
         cout << instruction.operator_str << ' ' << instruction.operator_code << ' ' << instruction.operand << endl;
 
         if (instruction.label != "")
-        {
             symbol_table.insert(Symbol(instruction.label, ILC));
-        }
+
         if (instruction.is_pseudo) // pseudo instrução WRITE
         {
             // determinar espaço para dados

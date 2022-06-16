@@ -9,6 +9,23 @@ void ignore_comments(string &s)
     s = s.substr(0, s.find(";", 0));
 }
 
+vector<string> split(string s, string delimiter)
+{
+    size_t pos_start = 0, pos_end, delim_len = delimiter.length();
+    string token;
+    vector<string> res;
+
+    while ((pos_end = s.find(delimiter, pos_start)) != string::npos)
+    {
+        token = s.substr(pos_start, pos_end - pos_start);
+        pos_start = pos_end + delim_len;
+        res.push_back(token);
+    }
+
+    res.push_back(s.substr(pos_start));
+    return res;
+}
+
 Instruction::Instruction(string input)
 {
     ignore_comments(input);
@@ -37,23 +54,6 @@ Instruction::Instruction(string input)
         size = 1;
     else
         size = 2;
-}
-
-vector<string> Instruction::split(string s, string delimiter)
-{
-    size_t pos_start = 0, pos_end, delim_len = delimiter.length();
-    string token;
-    vector<string> res;
-
-    while ((pos_end = s.find(delimiter, pos_start)) != string::npos)
-    {
-        token = s.substr(pos_start, pos_end - pos_start);
-        pos_start = pos_end + delim_len;
-        res.push_back(token);
-    }
-
-    res.push_back(s.substr(pos_start));
-    return res;
 }
 
 enum Operator Instruction::get_opcode(const string &op_str)

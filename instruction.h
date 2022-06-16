@@ -41,8 +41,6 @@ public:
     Instruction(string input);
 
 private:
-    vector<string> split(string s, string delimiter);
-
     enum Operator get_opcode(const string &operator_str);
 };
 
