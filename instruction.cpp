@@ -32,6 +32,11 @@ Instruction::Instruction(string input)
     operator_code = get_opcode(operator_str);
 
     is_pseudo = operator_str == "WORD";
+
+    if (operator_code == HALT or operator_code == RET or operator_code == OTHER)
+        size = 1;
+    else
+        size = 2;
 }
 
 vector<string> Instruction::split(string s, string delimiter)

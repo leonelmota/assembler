@@ -1,3 +1,6 @@
+#ifndef INCLUDE_INSTRUCTION_H
+#define INCLUDE_INSTRUCTION_H
+
 #include <string>
 #include <vector>
 
@@ -42,3 +45,5 @@ private:
 
     enum Operator get_opcode(const string &operator_str);
 };
+
+#endif

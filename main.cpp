@@ -3,18 +3,16 @@
 #include <vector>
 #include "instruction.h"
 #include "symbol.h"
+#include "symbol_table.h"
 
 using namespace std;
 
-#define MAX_INPUT_SIZE 1000
-#define MAX_TOKEN_SIZE 6
 #define MEMORY_SIZE 1000
-#define MAX_INSTRUCTIONS 10000
 
 vector<int> memory(MEMORY_SIZE);
-int PC, AC, SP, ILC;
+int PC, AC, SP, ILC = 0;
 vector<Instruction> instructions;
-vector<Symbol> symbol_table;
+SymbolTable symbol_table;
 
 void read_instructions();
 
@@ -84,8 +82,25 @@ void read_instructions()
 void pass_one()
 {
     for (auto instruction : instructions)
-    {
+    { 
         cout << instruction.operator_str << ' ' << instruction.operator_code << ' ' << instruction.operand << endl;
+
+        if (instruction.label != "")
+        {
+            symbol_table.insert(Symbol(instruction.label, ILC));
+        }
+        if (instruction.is_pseudo) // pseudo instrução WRITE
+        {
+            // determinar espaço para dados
+        }
+        else
+        {
+            // pesquisar tabela de operandos
+            // obter tamanho da instrução
+            // processar literais
+        }
+
+        ILC += instruction.size;
     }
 }
 
