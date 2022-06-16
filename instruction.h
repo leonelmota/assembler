@@ -33,6 +33,7 @@ public:
     enum Operator operator_code;
     string operand;
     int size;
+    bool is_pseudo;
 
     Instruction(string input);
 

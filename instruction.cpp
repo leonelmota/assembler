@@ -4,8 +4,14 @@
 
 using namespace std;
 
+void ignore_comments(string &s)
+{
+    s = s.substr(0, s.find(";", 0));
+}
+
 Instruction::Instruction(string input)
 {
+    ignore_comments(input);
     vector<string> input_split = split(input, " ");
 
     if (input_split.size() == 3)
@@ -19,7 +25,13 @@ Instruction::Instruction(string input)
         operator_str = input_split[0];
         operand = input_split[1];
     }
+    else if (input_split.size() == 1)
+    {
+        operator_str = input_split[0];
+    }
     operator_code = get_opcode(operator_str);
+
+    is_pseudo = operator_str == "WORD";
 }
 
 vector<string> Instruction::split(string s, string delimiter)
