@@ -4,56 +4,48 @@
 
 using namespace std;
 
-void ignore_comments(string &s)
-{
-    s = s.substr(0, s.find(";", 0));
-}
-
-vector<string> split(string s, string delimiter)
-{
-    size_t pos_start = 0, pos_end, delim_len = delimiter.length();
-    string token;
-    vector<string> res;
-
-    while ((pos_end = s.find(delimiter, pos_start)) != string::npos)
-    {
-        token = s.substr(pos_start, pos_end - pos_start);
-        pos_start = pos_end + delim_len;
-        res.push_back(token);
-    }
-
-    res.push_back(s.substr(pos_start));
-    return res;
-}
+void ignore_comments(string &s);
+vector<string> split(string s, string delimiter);
 
 Instruction::Instruction(string input)
+{
+    ignore_comments(input);
+    tie(label, operator_str, operand) = process_input(input);
+
+    operator_code = get_opcode(operator_str);
+
+    is_pseudo = operator_str == "WORD";
+
+    size = get_intruction_size(operator_code);
+}
+
+// returns label, operator_str, operand
+tuple<string, string, string> Instruction::process_input(string input)
 {
     ignore_comments(input);
     vector<string> input_split = split(input, " ");
 
     if (input_split.size() == 3)
-    {
-        label = input_split[0].substr(0, input_split[0].size() - 1);
-        operator_str = input_split[1];
-        operand = input_split[2];
-    }
+        return tuple<string, string, string>(input_split[0].substr(0, input_split[0].size() - 1),
+                                             input_split[1],
+                                             input_split[2]);
     else if (input_split.size() == 2)
-    {
-        operator_str = input_split[0];
-        operand = input_split[1];
-    }
+        return tuple<string, string, string>("",
+                                             input_split[0],
+                                             input_split[1]);
     else if (input_split.size() == 1)
-    {
-        operator_str = input_split[0];
-    }
-    operator_code = get_opcode(operator_str);
+        return tuple<string, string, string>("", "", input_split[0]);
 
-    is_pseudo = operator_str == "WORD";
-
-    if (operator_code == HALT or operator_code == RET or operator_code == OTHER)
-        size = 1;
     else
-        size = 2;
+        return tuple<string, string, string>();
+}
+
+int Instruction::get_intruction_size(enum Operator opcode)
+{
+    if (opcode == HALT or opcode == RET or opcode == OTHER)
+        return 1;
+    else
+        return 2;
 }
 
 enum Operator Instruction::get_opcode(const string &op_str)
@@ -92,4 +84,26 @@ enum Operator Instruction::get_opcode(const string &op_str)
         return HALT;
     else
         return OTHER;
+}
+
+void ignore_comments(string &s)
+{
+    s = s.substr(0, s.find(";", 0));
+}
+
+vector<string> split(string s, string delimiter)
+{
+    size_t pos_start = 0, pos_end, delim_len = delimiter.length();
+    string token;
+    vector<string> res;
+
+    while ((pos_end = s.find(delimiter, pos_start)) != string::npos)
+    {
+        token = s.substr(pos_start, pos_end - pos_start);
+        pos_start = pos_end + delim_len;
+        res.push_back(token);
+    }
+
+    res.push_back(s.substr(pos_start));
+    return res;
 }

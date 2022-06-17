@@ -3,6 +3,7 @@
 
 #include <string>
 #include <vector>
+#include <tuple>
 
 using namespace std;
 
@@ -41,7 +42,9 @@ public:
     Instruction(string input);
 
 private:
+    tuple<string, string, string> process_input(string input);
     enum Operator get_opcode(const string &operator_str);
+    int get_intruction_size(enum Operator opcode);
 };
 
 #endif
