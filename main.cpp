@@ -81,6 +81,7 @@ void read_instructions()
 
 void pass_one()
 {
+    ILC = 0;
     for (auto instruction : instructions)
     { 
         cout << instruction.operator_str << ' ' << instruction.operator_code << ' ' << instruction.operand << endl;
@@ -95,8 +96,7 @@ void pass_one()
         else
         {
             // pesquisar tabela de operandos
-            // obter tamanho da instrução
-            // processar literais
+            // processar literais (acho que não precisa)
         }
 
         ILC += instruction.size;
@@ -105,7 +105,69 @@ void pass_one()
 
 void pass_two()
 {
+    ILC = 0;
     for (auto instruction : instructions)
     {
+        if (!instruction.is_pseudo)
+            process_instruction(instruction);
+        // write output
+        ILC += instruction.size;
+    }
+}
+
+void process_instruction(const Instruction &instruction)
+{
+    switch (instruction.operator_code)
+    {
+    case LOAD:
+        load(instruction);
+        break;
+    case STORE:
+        store(instruction);
+        break;
+    case ADD:
+        add(instruction);
+        break;
+    case SUB:
+        sub(instruction);
+        break;
+    case JMP:
+        jmp(instruction);
+        break;
+    case JPG:
+        jpg(instruction);
+        break;
+    case JPL:
+        jpl(instruction);
+        break;
+    case JPE:
+        jpe(instruction);
+        break;
+    case JPNE:
+        jpne(instruction);
+        break;
+    case PUSH:
+        push(instruction);
+        break;
+    case POP:
+        pop(instruction);
+        break;
+    case READ:
+        read(instruction);
+        break;
+    case WRITE:
+        write(instruction);
+        break;
+    case CALL:
+        call(instruction);
+        break;
+    case RET:
+        ret(instruction);
+        break;
+    case HALT:
+        halt(instruction);
+        break;
+    default:
+        break;
     }
 }
