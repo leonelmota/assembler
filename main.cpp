@@ -89,7 +89,7 @@ void pass_one()
         if (instruction.label != "")
             symbol_table.insert(Symbol(instruction.label, ILC));
 
-        if (instruction.is_pseudo) // pseudo instrução WRITE
+        if (instruction.is_pseudo) // pseudo instrução WORD
         {
             // determinar espaço para dados
         }
