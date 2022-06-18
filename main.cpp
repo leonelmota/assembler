@@ -66,6 +66,7 @@ int main()
     return 0;
 }
 
+
 void read_instructions()
 {
     while (true)
@@ -84,18 +85,18 @@ void pass_one()
     ILC = 0;
     for (auto instruction : instructions)
     { 
-        cout << instruction.operator_str << ' ' << instruction.operator_code << ' ' << instruction.operand << endl;
+        //cout << instruction.operator_str << ' ' << instruction.operator_code << ' ' << instruction.operand << endl;
 
-        if (instruction.label != "")
+        if (instruction.label != "") 
             symbol_table.insert(Symbol(instruction.label, ILC));
-
         if (instruction.is_pseudo) // pseudo instrução WORD
         {
             // determinar espaço para dados
         }
         else
         {
-            // pesquisar tabela de operandos
+            // pesquisar tabela de operandos 
+			// (ja sabemos o operando, entao acho que nao precisa)
             // processar literais (acho que não precisa)
         }
 
@@ -105,14 +106,32 @@ void pass_one()
 
 void pass_two()
 {
+	int size = ILC;
     ILC = 0;
-    for (auto instruction : instructions)
+	cout << "MVI ";
+    cout << ILC << ' ';
+	cout << MEMORY_SIZE -1 << ' ';
+	cout << size << ' ';
+
+	for (auto instruction : instructions)
     {
         if (!instruction.is_pseudo)
             process_instruction(instruction);
-        // write output
+		
+		// output
+        if (!instruction.is_pseudo) {
+			cout << instruction.operator_code << ' ';
+
+			if (instruction.size > 1) {
+				int location = symbol_table.find(instruction.operand);
+				cout << location - ILC << ' ';
+			}
+		}
+		else
+			cout << 0 << ' ';
         ILC += instruction.size;
     }
+	cout << endl;
 }
 
 void process_instruction(const Instruction &instruction)
@@ -171,3 +190,37 @@ void process_instruction(const Instruction &instruction)
         break;
     }
 }
+
+void load(const Instruction &instruction) {}
+
+void store(const Instruction &instruction) {}
+
+void add(const Instruction &instruction) {}
+
+void sub(const Instruction &instruction) {}
+
+void jmp(const Instruction &instruction) {}
+
+void jpg(const Instruction &instruction) {}
+
+void jpl(const Instruction &instruction) {}
+
+void jpe(const Instruction &instruction) {}
+
+void jpne(const Instruction &instruction) {}
+
+void push(const Instruction &instruction) {}
+
+void pop(const Instruction &instruction) {}
+
+void read(const Instruction &instruction) {}
+
+void write(const Instruction &instruction) {}
+
+void call(const Instruction &instruction) {}
+
+void ret(const Instruction &instruction) {}
+
+void halt(const Instruction &instruction) {}
+
+

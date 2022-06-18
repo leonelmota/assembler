@@ -3,6 +3,7 @@
 
 #include "symbol.h"
 #include <vector>
+#include <string>
 
 using namespace std;
 
@@ -13,6 +14,7 @@ public:
 
     SymbolTable();
     void insert(Symbol new_symbol);
+    int find(string operand);
 };
 
 #endif
