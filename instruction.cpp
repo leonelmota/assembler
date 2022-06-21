@@ -23,6 +23,9 @@ Instruction::Instruction(string input)
 tuple<string, string, string> Instruction::process_input(string input)
 {
     ignore_comments(input);
+    if (input.find(" ") == string::npos)
+        return tuple<string, string, string>("", input, "");
+
     vector<string> input_split = split(input, " ");
 
     if (input_split.size() == 3)
