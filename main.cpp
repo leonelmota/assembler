@@ -127,9 +127,9 @@ void pass_two()
 				cout << location - ILC << ' ';
 			}
 		}
-		else
-			cout << 0 << ' ';
-		ILC += instruction.size;
+        else if (instruction.operator_str == "WORD")
+            cout << instruction.operand << ' ';
+        ILC += instruction.size;
 	}
 	cout << endl;
 }
