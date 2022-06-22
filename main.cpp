@@ -115,6 +115,7 @@ void pass_two()
 
 	for (auto instruction : instructions)
 	{
+		ILC += instruction.size;
 		if (!instruction.is_pseudo)
 			process_instruction(instruction);
 
@@ -129,7 +130,6 @@ void pass_two()
 		}
         else if (instruction.operator_str == "WORD")
             cout << instruction.operand << ' ';
-        ILC += instruction.size;
 	}
 	cout << endl;
 }
